@@ -110,3 +110,4 @@ Word Drop leverages **WebViews** to integrate rich web technologies into the Red
 - [ ] **Share Your Score**: Share your score and current game with other redditors to compete on the same board of letters.
 - [ ] **Leaderboards**: Compete against other redditors in daily competitions.
 - [ ] **Subreddit Integration**: Compete against others within a subreddit. Implement leaderboard for subreddit competitions (communities compete for the best community score)
+- [ ] Add interesting font for letters. Maybe use the font style from the PixelFont Playgrounds: https://developers.reddit.com/docs/showcase/playgrounds
