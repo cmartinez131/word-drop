@@ -25,49 +25,40 @@ class App {
     let lastPosition = null;
     
     const scoreElement = document.querySelector('#score');
+    const timerLabel = document.querySelector("#timer");
 
     // Score variable keeps track of score and persists across multiple methods
     this.score = 0
 
     // Store reference to DOM element so it can be accessed derectly in methods without querying the DOM repeatedly
     this.scoreElement = scoreElement;
+
+
+    this.timerLabel = timerLabel;
+    this.isGameActive = false;
+    this.timer = 10;
+    this.intervalId = null;
     
     // Letter bank where the letters will come from
-    const letterBank = Array.from({ length: 25 }, () =>
-      Array.from({ length: 5 }, () => alphabet.charAt(Math.floor(Math.random() * alphabet.length)))
-    );
-
-    // Initialize the game board
-    for (let row = 0; row < 5; row++) {
-      for (let col = 0; col < 5; col++) {
-        const button = document.createElement('button');
-        button.classList.add('letter-button');
-        button.innerText = letterBank[row][col];
-
-        // Store the row and column within the button object
-        button.dataset.row = row;
-        button.dataset.col = col;
-
-        // Add event listeners for mouse interactions
-        button.addEventListener('mousedown', (e) => this.handleMouseDown(e, row, col));
-        button.addEventListener('mouseenter', (e) => this.handleMouseEnter(e, row, col));
-        gameBoard[row][col] = button;
-        gameBoardElement.appendChild(button);
-      }
-    }
+    this.letterBank = this.fillLetterBank();
 
     // Event listener for lifting up the mouse cursor up
     document.addEventListener('mouseup', () => this.handleMouseUp());
-
+    
     // Instance varibales for the game state
     this.gameBoard = gameBoard;
-    this.letterBank = letterBank;
+    
     this.currentWord = currentWord;
     this.currentLetterPositions = currentLetterPositions;
     this.isMouseDown = isMouseDown;
     this.lastPosition = lastPosition;
     
-
+    // Initialize the game board
+    this.initializeGameBoard();
+    
+    // Start the game when the game WebView is first loaded
+    this.startGame();
+    
     // Code for Devvit - Webview eventlisteners
     // When the Devvit app sends a message with `context.ui.webView.postMessage`, this will be triggered
     // window.addEventListener('message', (ev) => {
@@ -115,7 +106,117 @@ class App {
   }
 
   // Code for Word Drop Game App Methods
+
+  startGame() {
+    console.log("Game Started");
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+
+    this.isGameActive = true;
+    this.timer = 10;
+    this.updateTimerLabel();
+
+    // Start Countdown
+    this.intervalId = setInterval(() => {
+      if (this.timer > 0) {
+        this.timer--;
+        this.updateTimerLabel();
+      } else {
+        this.endGame();
+      }
+    }, 1000);
+  }
+
+  endGame() {
+    this.isGameActive = false;
+    clearInterval(this.intervalId);
+    console.log(`Game Over! Score: ${this.score}`);
+
+    // Display gameover popup
+    const gameOverPopup = document.getElementById("gameover-popup");
+    const finalScoreLabel = document.getElementById("final-score-label");
+    gameOverPopup.classList.remove("hidden");
+    finalScoreLabel.innerText = `Final Score: ${this.score}`;
+
+    // Add event listeners to buttons
+    const newGameButton = document.getElementById("new-game-button");
+    const shareScoreButton = document.getElementById("share-score-button");
+
+    newGameButton.addEventListener("click", () => {
+      console.log("New Game Button Pressed");
+      gameOverPopup.classList.add("hidden");
+      this.restartGame();
+    });
+
+    shareScoreButton.addEventListener("click", () => {
+      console.log("Share Score Button Pressed");
+    });
+  }
+
+  restartGame() {
+    console.log("Game Restarted")
+    this.score = 0
+    this.timer = 10
+    this.isGameActive = false;
+
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+      this.intervalId = null;
+    }  
+
+    // Update the score in the DOM back to 0
+    this.updateScore(0);
+    this.updateTimerLabel();
+
+    this.letterBank = this.fillLetterBank();
+
+    // Clear the game board
+    const gameBoardElement = document.getElementById("game-board");
+    gameBoardElement.innerHTML = "";
+
+    // Reinitialize the game board
+    this.initializeGameBoard();
+
+    this.startGame();
+  }
+
+  updateTimerLabel() {
+    this.timerLabel.innerText = `Timer: ${this.timer} seconds`;
+  }
+
+  initializeGameBoard() {
+    for (let row = 0; row < 5; row++) {
+      for (let col = 0; col < 5; col++) {
+        const button = document.createElement("button");
+        button.classList.add("letter-button");
+        button.innerText = this.letterBank[row][col];
+  
+        button.dataset.row = row;
+        button.dataset.col = col;
+  
+        button.addEventListener("mousedown", (e) => this.handleMouseDown(e, row, col));
+        button.addEventListener("mouseenter", (e) => this.handleMouseEnter(e, row, col));
+  
+        this.gameBoard[row][col] = button;
+        const gameBoardElement = document.getElementById("game-board");
+        gameBoardElement.appendChild(button);
+      }
+    }
+  }
+
+  fillLetterBank() {
+    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    return Array.from({ length: 25 }, () =>
+      Array.from({ length: 5 }, () => alphabet.charAt(Math.floor(Math.random() * alphabet.length)))
+    );
+  }
+
+  // Word Forming with HandleMouseDown can only get called if the game is active
   handleMouseDown(e, row, col) {
+    if (!this.isGameActive) {
+      return;
+    }
     this.isMouseDown = true;
     this.currentWord = this.gameBoard[row][col].innerText;
     this.currentLetterPositions.push([row, col]);
@@ -123,6 +224,7 @@ class App {
     this.gameBoard[row][col].classList.add('highlighted');
   }
 
+  // HandleMouseEnter and HandlemouseUp will only get called in isMouseDown is True
   handleMouseEnter(e, row, col) {
     if (this.isMouseDown) {
       const lastPosition = this.currentLetterPositions[this.currentLetterPositions.length - 1];

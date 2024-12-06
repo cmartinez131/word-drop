@@ -25,6 +25,7 @@ Build as many words as you can in 60 seconds! Drag your mouse over adjacent lett
 #### Technologies Used
 
 - **Devvit**: For Reddit Developer Platform integration.
+- **TypeScript**: For the Devvit app to comminucate with the WebView app and make API request.
 - **HTML/CSS/JavaScript**: For the game interface and core game logic.
 - **WebViews**: For integrating web technologies into the Reddit platform, allowing full customization of the app's interface.
 - **Redis**: (Todo) Stores and manages game state, such as the score and board data, enabling persistent gameplay across sessions.
