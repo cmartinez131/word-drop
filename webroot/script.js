@@ -256,18 +256,11 @@ class App {
   }
 
   calculateScore(wordLength) {
-    if (wordLength === 3) {
-      return 3;
-    } else if (wordLength === 4) {
-      return 7;
-    } else if (wordLength === 5) {
-      return 15;
-    } else if (wordLength > 5) {
-      return 30;
-    } else {
-      // No points for words less than 3 letters
+    if (wordLength < 3) {
       return 0;
     }
+    const multiplier = 1 + 0.5 * (wordLength - 3);
+    return Math.floor(wordLength * multiplier)
   }
 
   isValidWord(word) {
