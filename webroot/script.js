@@ -32,12 +32,42 @@ class App {
 
     // Store reference to DOM element so it can be accessed derectly in methods without querying the DOM repeatedly
     this.scoreElement = scoreElement;
-
-
+    
+    
     this.timerLabel = timerLabel;
     this.isGameActive = false;
     this.timer = 10;
     this.intervalId = null;
+
+    // More common letters will show up more frequently
+    this.letterFrequencies = [
+      { letter: 'E', weight: 9.00 },
+      { letter: 'T', weight: 8.00 },
+      { letter: 'A', weight: 8.00 },
+      { letter: 'O', weight: 7.00 },
+      { letter: 'I', weight: 6.50 },
+      { letter: 'N', weight: 7.00 },
+      { letter: 'S', weight: 6.51 },
+      { letter: 'R', weight: 6.28 },
+      { letter: 'H', weight: 5.00 },
+      { letter: 'L', weight: 4.50 },
+      { letter: 'D', weight: 3.82 },
+      { letter: 'C', weight: 3.50 },
+      { letter: 'U', weight: 2.50 },
+      { letter: 'M', weight: 2.50 },
+      { letter: 'F', weight: 2.00 },
+      { letter: 'P', weight: 2.00 },
+      { letter: 'G', weight: 2.00 },
+      { letter: 'W', weight: 1.50 },
+      { letter: 'Y', weight: 1.66 },
+      { letter: 'B', weight: 1.48 },
+      { letter: 'V', weight: 0.80 },
+      { letter: 'K', weight: 0.54 },
+      { letter: 'X', weight: 0.23 },
+      { letter: 'J', weight: 0.16 },
+      { letter: 'Q', weight: 0.12 },
+      { letter: 'Z', weight: 0.09 },
+    ];
     
     // Letter bank where the letters will come from
     this.letterBank = this.fillLetterBank();
@@ -52,6 +82,7 @@ class App {
     this.currentLetterPositions = currentLetterPositions;
     this.isMouseDown = isMouseDown;
     this.lastPosition = lastPosition;
+
     
     // Initialize the game board
     this.initializeGameBoard();
@@ -205,13 +236,29 @@ class App {
     }
   }
 
-  fillLetterBank() {
-    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    return Array.from({ length: 25 }, () =>
-      Array.from({ length: 5 }, () => alphabet.charAt(Math.floor(Math.random() * alphabet.length)))
-    );
+  getWeightedRandomLetter() {
+    // Calculate total weight
+    const totalWeight = this.letterFrequencies.reduce((sum, { weight }) => sum + weight, 0);
+  
+    // Generate a random number between 0 and totalWeight
+    const random = Math.random() * totalWeight;
+  
+    // Map the random number to a letter
+    let cumulativeWeight = 0;
+    for (const { letter, weight } of this.letterFrequencies) {
+      cumulativeWeight += weight;
+      if (random <= cumulativeWeight) {
+        return letter;
+      }
+    }
   }
 
+  fillLetterBank() {
+    return Array.from({ length: 5 }, () =>
+      Array.from({ length: 5 }, () => this.getWeightedRandomLetter())
+    );
+  }
+  
   // Word Forming with HandleMouseDown can only get called if the game is active
   handleMouseDown(e, row, col) {
     if (!this.isGameActive) {
@@ -245,12 +292,17 @@ class App {
   handleMouseUp() {
     if (this.isMouseDown) {
       console.log(`Word Submitted: ${this.currentWord}`);
-      console.log('Checking if submitted word is a valid word.')
       
-      const wordLength = this.currentWord.length;
-      const points = this.calculateScore(wordLength);
-      this.updateScore(points);
-      this.removeAndDropLetters();
+      if (this.isValidWord(this.currentWord)) {
+        console.log(`${this.currentWord} is a valid word`);
+        const wordLength = this.currentWord.length;
+        const points = this.calculateScore(wordLength);
+        this.updateScore(points);
+        this.removeAndDropLetters();
+      }
+      else {
+        console.log(`${this.currentWord} is invalid`);
+      }
       this.resetSelection();
     }
   }
@@ -265,7 +317,7 @@ class App {
 
   isValidWord(word) {
     // Implmenet logic for checking if word is valid or not
-    return True
+    return true;
   }
 
   updateScore(points) {

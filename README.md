@@ -44,7 +44,7 @@ Word Drop leverages **WebViews** to integrate rich web technologies into the Red
 
 - [ ] Validate word before adding score.
 - [x] Add end game logic to end game after 60 seconds.
-- [ ] Increase frequency of vowels.
+- [x] Increase frequency of commonly used letters for a more balanced game.
 - [x] Improve scoring calculation logic.
 - [ ] Update UI to show future letters in letter bank, and put title, score, and timer on the left side of the game board.
 - [ ] Update new letter logic to get words from columns in letter bank.
@@ -58,3 +58,4 @@ Word Drop leverages **WebViews** to integrate rich web technologies into the Red
 - [ ] **Subreddit Integration**: Compete against others within a subreddit. Implement leaderboard for subreddit competitions (communities compete for the best community score).
 - [ ] Add interesting font for letters. Maybe use the font style from the PixelFont Playgrounds: [PixelFont Playgrounds](https://developers.reddit.com/docs/showcase/playgrounds).
 - [ ] Fix bug where the game runs before 'Start Game' Button is pressed
+- [ ] Send score from webview to devvit for user so user can track highest score
