@@ -20,6 +20,11 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
 h1,
 h2,
 h3 {
@@ -31,6 +36,7 @@ h1 {
   font-size: 1.8rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
+  margin-top: 0.2rem;
 }
 
 h2 {
@@ -103,6 +109,7 @@ pre {
   max-width: 650px;
   margin: 0 auto;
   text-align: center;
+  height: 100%;
 }
 
 #game-board {
@@ -157,7 +164,7 @@ pre {
 #gameover-popup h2 {
   font-size: 2.5rem;
   color: white;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 #gameover-popup p {
@@ -184,9 +191,22 @@ pre {
   background-color: #009c4a;
 }
 
+#final-score-label {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+#longest-word-label {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
 #high-score-label {
   font-size: 1.2rem;
   margin-bottom: 5px;
+  margin-top: 20px;
 }
 
 #longest-word-overall-label {
