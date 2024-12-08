@@ -59,3 +59,4 @@ Word Drop leverages **WebViews** to integrate rich web technologies into the Red
 - [ ] Add interesting font for letters. Maybe use the font style from the PixelFont Playgrounds: [PixelFont Playgrounds](https://developers.reddit.com/docs/showcase/playgrounds).
 - [ ] Fix bug where the game runs before 'Start Game' Button is pressed
 - [ ] Send score from webview to devvit for user so user can track highest score
+- [x] keep track of longest word in the game and display it on gamover screen

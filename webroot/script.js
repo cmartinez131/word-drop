@@ -83,6 +83,15 @@ class App {
     this.isMouseDown = isMouseDown;
     this.lastPosition = lastPosition;
 
+    // Keep track of the longest valid word played this round
+    this.longestWord = '';
+
+    // keep track of longest valid word across all rounds this session
+    this.longestWordOverall = '';
+
+    // Keep track of the highest score played this game session
+    this.highScore = 0;
+
     
     // Initialize the game board
     this.initializeGameBoard();
@@ -164,11 +173,24 @@ class App {
     clearInterval(this.intervalId);
     console.log(`Game Over! Score: ${this.score}`);
 
+    // Update the high score this game session if the current score is higher
+    if (this.score > this.highScore) {
+      this.highScore = this.score;
+    }
+
     // Display gameover popup
     const gameOverPopup = document.getElementById("gameover-popup");
     const finalScoreLabel = document.getElementById("final-score-label");
+    const longestWordLabel = document.getElementById("longest-word-label");
+    const highScoreLabel = document.getElementById("high-score-label");
+    const longestWordOverallLabel = document.getElementById("longest-word-overall-label");
+
     gameOverPopup.classList.remove("hidden");
     finalScoreLabel.innerText = `Final Score: ${this.score}`;
+    longestWordLabel.innerText = `Longest Word: ${this.longestWord || 'None'}`;
+    highScoreLabel.innerText = `High Score: ${this.highScore}`;
+    longestWordOverallLabel.innerText = `Longest Word Overall: ${this.longestWordOverall || 'None'}`;
+
 
     // Add event listeners to buttons
     const newGameButton = document.getElementById("new-game-button");
@@ -190,7 +212,9 @@ class App {
     this.score = 0
     this.timer = 10
     this.isGameActive = false;
-
+    // Reset Longest word for round
+    this.longestWord = '';
+    
     if (this.intervalId) {
       clearInterval(this.intervalId);
       this.intervalId = null;
@@ -297,6 +321,17 @@ class App {
         console.log(`${this.currentWord} is a valid word`);
         const wordLength = this.currentWord.length;
         const points = this.calculateScore(wordLength);
+
+        // Update the longest word if the current valid word is longer
+        if (this.currentWord.length > this.longestWord.length) {
+          this.longestWord = this.currentWord;
+        }
+
+        // Update the overall longest word
+        if (this.currentWord.length > this.longestWordOverall.length) {
+          this.longestWordOverall = this.currentWord;
+        }
+
         this.updateScore(points);
         this.removeAndDropLetters();
       }

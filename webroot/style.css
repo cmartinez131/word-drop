@@ -145,7 +145,7 @@ pre {
   width: 80%;
   max-width: 400px;
   background-color: slategray;
-  padding: 20px;
+  padding: 30px;
   border-radius: 10px;
   text-align: center;
 }
@@ -155,30 +155,43 @@ pre {
 }
 
 #gameover-popup h2 {
-  font-size: 2rem;
+  font-size: 2.5rem;
   color: white;
+  margin-bottom: 10px;
 }
 
 #gameover-popup p {
   font-size: 1rem;
   color: white;
+  margin-bottom: 10px;
 }
 
 #gameover-buttons-container {
-  margin-top: 20px;
+  margin-top: 25px;
 }
 
 #gameover-buttons-container button {
   margin: 10px;
   padding: 10px 20px;
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: white;
   background-color: #00d062;
   border-radius: 5px;
+  cursor: pointer;
 }
 
 #gameover-buttons-container button:hover {
   background-color: #009c4a;
+}
+
+#high-score-label {
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+}
+
+#longest-word-overall-label {
+  font-size: 1.2rem;
+  margin-bottom: 5px;
 }
 
 @media (max-width: 640px) {
