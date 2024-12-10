@@ -10,10 +10,7 @@ Build as many words as you can in 60 seconds! Drag your mouse over adjacent lett
 
 - **Dynamic Word Gameplay**: Form words by selecting adjacent letters on a 5x5 grid.
 - **Scoring System**: Earn points based on the length of words you form:
-  - 3-letter words: 3 points
-  - 4-letter words: 7 points
-  - 5-letter words: 15 points
-  - Words longer than 5 letters: 30 points
+  - Longer words equal more points.
 - **Dynamic Game Board Updates**: Letters used in a word disappear, and new letters drop in to replace them, ensuring endless gameplay possibilities.
 
 #### How to Play
@@ -42,7 +39,7 @@ Word Drop leverages **WebViews** to integrate rich web technologies into the Red
 
 ### TODO:
 
-- [ ] Validate word before adding score.
+- [x] Validate word before adding score.
 - [x] Add end game logic to end game after 60 seconds.
 - [x] Increase frequency of commonly used letters for a more balanced game.
 - [x] Improve scoring calculation logic.
