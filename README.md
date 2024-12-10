@@ -45,8 +45,8 @@ Word Drop leverages **WebViews** to integrate rich web technologies into the Red
 - [x] Improve scoring calculation logic.
 - [ ] Update UI to show future letters in letter bank, and put title, score, and timer on the left side of the game board.
 - [ ] Update new letter logic to get words from columns in letter bank.
-- [ ] On mouse up, show green when the word is valid, show red when the word is invalid.
-- [ ] Or show green when the word is valid and the user hasn’t lifted the mouse yet.
+- [x] On mouse up, show green when the word is valid.
+- [x] Or show green when the word is valid and the user hasn’t lifted the mouse yet.
 - [ ] Implement word falling animation.
 - [ ] Animation for word formation.
 - [ ] **Score Tracking**: Keep track of your high scores.

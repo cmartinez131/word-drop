@@ -36,7 +36,7 @@ class App {
     
     this.timerLabel = timerLabel;
     this.isGameActive = false;
-    this.timer = 10;
+    this.timer = 20;
     this.intervalId = null;
 
     // More common letters will show up more frequently
@@ -154,7 +154,7 @@ class App {
     }
 
     this.isGameActive = true;
-    this.timer = 10;
+    this.timer = 20;
     this.updateTimerLabel();
 
     // Start Countdown
@@ -210,7 +210,7 @@ class App {
   restartGame() {
     console.log("Game Restarted")
     this.score = 0
-    this.timer = 10
+    this.timer = 20
     this.isGameActive = false;
     // Reset Longest word for round
     this.longestWord = '';
@@ -292,7 +292,7 @@ class App {
     this.currentWord = this.gameBoard[row][col].innerText;
     this.currentLetterPositions.push([row, col]);
     this.lastPosition = { row, col };
-    this.gameBoard[row][col].classList.add('highlighted');
+    this.updateHighlight();
   }
 
   // HandleMouseEnter and HandlemouseUp will only get called in isMouseDown is True
@@ -301,13 +301,15 @@ class App {
       const lastPosition = this.currentLetterPositions[this.currentLetterPositions.length - 1];
   
       // Check if the cell is adjacent and not already used in the current word
-      const alreadyUsed = this.currentLetterPositions.some(([usedRow, usedCol]) => usedRow === row && usedCol === col);
+      const alreadyUsed = this.currentLetterPositions.some(
+        ([usedRow, usedCol]) => usedRow === row && usedCol === col
+      );
   
       if (this.isAdjacent(lastPosition, [row, col]) && !alreadyUsed) {
         this.currentWord += this.gameBoard[row][col].innerText;
         this.currentLetterPositions.push([row, col]);
         this.lastPosition = { row, col };
-        this.gameBoard[row][col].classList.add('highlighted');
+        this.updateHighlight();
       }
     }
   }
@@ -339,6 +341,23 @@ class App {
       }
       this.resetSelection();
     }
+  }
+
+  updateHighlight() {
+    // Remove previous highlights
+    document.querySelectorAll('.highlighted, .valid-word').forEach((btn) => {
+      btn.classList.remove('highlighted', 'valid-word');
+    });
+  
+    // Add highlights to current selection
+    this.currentLetterPositions.forEach(([row, col]) => {
+      const button = this.gameBoard[row][col];
+      if (this.isValidWord(this.currentWord)) {
+        button.classList.add('valid-word');
+      } else {
+        button.classList.add('highlighted');
+      }
+    });
   }
 
   calculateScore(wordLength) {
@@ -421,8 +440,12 @@ class App {
     this.currentLetterPositions = [];
     this.isMouseDown = false;
     this.lastPosition = null;
-    document.querySelectorAll('.highlighted').forEach((btn) => btn.classList.remove('highlighted'));
+  
+    document.querySelectorAll('.highlighted, .valid-word').forEach((btn) => {
+      btn.classList.remove('highlighted', 'valid-word');
+    });
   }
+  
 
 }
 

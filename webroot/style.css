@@ -214,6 +214,11 @@ pre {
   margin-bottom: 5px;
 }
 
+#game-board button.valid-word {
+  background-color: green;
+  color: white;
+}
+
 @media (max-width: 640px) {
   body {
     padding: 0.75rem;
