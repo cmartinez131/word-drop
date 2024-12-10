@@ -130,7 +130,7 @@ pre {
   border: 1px solid #ccc;
   background: #ffffff;
   cursor: pointer;
-  border-radius: var(--border-radius);
+  border-radius: 50%;
   transition: background-color 0.3s;
 }
 
