@@ -205,6 +205,19 @@ class App {
     shareScoreButton.addEventListener("click", () => {
       console.log("Share Score Button Pressed");
     });
+
+    
+  // After showing game over, send data back to Devvit app
+    window.parent?.postMessage(
+      {
+        type: 'gameEnded',
+        data: {
+          finalScore: this.score,
+          longestWord: this.longestWordOverall,
+        },
+      },
+      '*'
+    );
   }
 
   restartGame() {

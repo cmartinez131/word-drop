@@ -1,6 +1,6 @@
 import './createPost.js';
 
-import { Devvit, useState } from '@devvit/public-api';
+import { Devvit, useState, useAsync } from '@devvit/public-api';
 
 // Defines the messages that are exchanged between Devvit and Web View
 type WebViewMessage =
@@ -15,6 +15,10 @@ type WebViewMessage =
   | {
       type: 'updateCounter';
       data: { currentCounter: number };
+    }
+  | {
+      type: 'gameEnded';
+      data: { finalScore: number; longestWord: string };
     };
 
 Devvit.configure({
@@ -39,6 +43,23 @@ Devvit.addCustomPostType({
       return Number(redisCount ?? 0);
     });
 
+    // Load the user's high score and longest word from redis with 'useAsync' hook
+    const {
+      data: userStats,
+      loading: userStatsLoading,
+      error: userStatsError,
+    } = useAsync(async () => {
+      if (!username) return { highScore: 0, longestWord: '' };
+      const highScoreKey = `high_score_${username}`;
+      const longestWordKey = `longest_word_${username}`;
+      const storedHighScore = await context.redis.get(highScoreKey);
+      const storedLongestWord = await context.redis.get(longestWordKey);
+      return {
+        highScore: storedHighScore ? Number(storedHighScore) : 0,
+        longestWord: storedLongestWord ?? '',
+      };
+    }, { depends: username });
+
     // Create a reactive state for web view visibility
     const [webviewVisible, setWebviewVisible] = useState(false);
 
@@ -54,6 +75,28 @@ Devvit.addCustomPostType({
             },
           });
           setCounter(msg.data.newCounter);
+          break;
+        case 'gameEnded':
+          // Compare finalScore and longestWord with stored values and update if better.
+          if (!username) return;
+
+          const highScoreKey = `high_score_${username}`;
+          const longestWordKey = `longest_word_${username}`;
+
+          const currentHighScore = userStats?.highScore ?? 0;
+          const currentLongestWord = userStats?.longestWord ?? '';
+
+          const newHighScore = msg.data.finalScore > currentHighScore ? msg.data.finalScore : currentHighScore;
+          const newLongestWord = msg.data.longestWord.length > currentLongestWord.length ? msg.data.longestWord : currentLongestWord;
+
+          // Update Redis
+          if (newHighScore !== currentHighScore) {
+            await context.redis.set(highScoreKey, newHighScore.toString());
+          }
+          if (newLongestWord !== currentLongestWord) {
+            await context.redis.set(longestWordKey, newLongestWord);
+          }
+
           break;
         case 'initialData':
         case 'updateCounter':
@@ -103,6 +146,25 @@ Devvit.addCustomPostType({
                 {counter ?? ''}
               </text>
             </hstack>
+            {userStatsLoading ? (
+              <text>Loading Stats...</text>
+            ) : (
+              <>
+                <hstack>
+                  <text size="medium">All-Time High Score:</text>
+                  <text size="medium" weight="bold">
+                    {userStats?.highScore ?? 0}
+                  </text>
+                </hstack>
+                <hstack>
+                  <text size="medium">All-Time Longest Word:</text>
+                  <text size="medium" weight="bold">
+                    {userStats?.longestWord ?? ''}
+                  </text>
+                </hstack>
+              </>
+            )}
+
           </vstack>
           <spacer />
           <button onPress={onShowWebviewClick}>Start Game</button>
