@@ -139,13 +139,23 @@ Devvit.addCustomPostType({
                 {username ?? ''}
               </text>
             </hstack>
-            {/* <hstack>
-              <text size="medium">Current counter:</text>
+            
+            <hstack>
+              {/* <text size="medium">Current counter:</text>
               <text size="medium" weight="bold">
                 {' '}
                 {counter ?? ''}
+              </text> */}
+              <text size="medium" weight="bold">
+                How to Play:
               </text>
-            </hstack> */}
+              <text size="small" wrap>
+                1. Press and hold the mouse over letters and drag to form words.
+              </text>
+              <text size="small" wrap>
+                2. Release the mouse to submit your word.
+              </text>
+            </hstack>
             {userStatsLoading ? (
               <text>Loading Stats...</text>
             ) : (
@@ -167,7 +177,7 @@ Devvit.addCustomPostType({
 
           </vstack>
           <spacer />
-          <button onPress={onShowWebviewClick}>Start Game</button>
+          <button onPress={onShowWebviewClick} appearance="primary" size="medium">Start Game</button>
         </vstack>
         <vstack grow={webviewVisible} height={webviewVisible ? '100%' : '0%'}>
           <vstack cornerRadius="small" border="thick" borderColor="black" height={webviewVisible ? '100%' : '0%'}>
