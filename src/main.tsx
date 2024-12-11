@@ -139,13 +139,13 @@ Devvit.addCustomPostType({
                 {username ?? ''}
               </text>
             </hstack>
-            <hstack>
+            {/* <hstack>
               <text size="medium">Current counter:</text>
               <text size="medium" weight="bold">
                 {' '}
                 {counter ?? ''}
               </text>
-            </hstack>
+            </hstack> */}
             {userStatsLoading ? (
               <text>Loading Stats...</text>
             ) : (
@@ -170,7 +170,7 @@ Devvit.addCustomPostType({
           <button onPress={onShowWebviewClick}>Start Game</button>
         </vstack>
         <vstack grow={webviewVisible} height={webviewVisible ? '100%' : '0%'}>
-          <vstack border="thick" borderColor="black" height={webviewVisible ? '100%' : '0%'}>
+          <vstack cornerRadius="small" border="thick" borderColor="black" height={webviewVisible ? '100%' : '0%'}>
             <webview
               id="myWebView"
               url="page.html"

@@ -23,7 +23,7 @@
     <pre id="messageOutput"></pre> -->
 
     <div id="game-container">
-      <h1>Word Drop</h1>
+      <h1 id="game-title">Word Drop</h1>
       <div id="header">
         <p id="timer">Timer: 60 seconds</p>
         <p id="score">Score: 0</p>
@@ -31,11 +31,13 @@
       <div id="game-board"></div>
 
       <div id="gameover-popup" class="hidden">
-        <h2>Game Over</h2>
-        <p id="final-score-label">Final Score: 0</p>
-        <p id="longest-word-label">Longest Word This Round: None</p>
-        <p id="high-score-label">High Score: 0</p>
-        <p id="longest-word-overall-label">Longest Word Overall: None</p>
+        <h2>Score Summary</h2>
+        <div id="score-summary-box">
+          <p id="final-score-label">Final Score: 0</p>
+          <p id="longest-word-label">Longest Word This Round: None</p>
+          <p id="high-score-label">High Score: 0</p>
+          <p id="longest-word-overall-label">Longest Word Overall: None</p>
+        </div>
         <div id="gameover-buttons-container">
           <button id="new-game-button">New Game</button>
           <button id="share-score-button">Share Score</button>
