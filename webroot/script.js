@@ -36,7 +36,7 @@ class App {
     
     this.timerLabel = timerLabel;
     this.isGameActive = false;
-    this.timer = 45;
+    this.timer = 60;
     this.intervalId = null;
 
     // More common letters will show up more frequently
@@ -154,7 +154,7 @@ class App {
     }
 
     this.isGameActive = true;
-    this.timer = 45;
+    this.timer = 60;
     this.updateTimerLabel();
 
     // Start Countdown
@@ -223,7 +223,7 @@ class App {
   restartGame() {
     console.log("Game Restarted")
     this.score = 0
-    this.timer = 45
+    this.timer = 60
     this.isGameActive = false;
     // Reset Longest word for round
     this.longestWord = '';
@@ -349,6 +349,10 @@ class App {
 
         this.updateScore(points);
         this.removeAndDropLetters();
+      } else if (this.currentWord.length === 1) { // player can remove one letter for a penalty
+        console.log(`Single letter selected :${this.currentWord}`);
+        this.updateScore(-3);
+        this.removeAndDropLetters();
       } else {
         console.log(`${this.currentWord} is invalid`);
       }
@@ -375,11 +379,19 @@ class App {
 
   calculateScore(wordLength) {
     if (wordLength < 3) {
-      return 0;
+      return 0; // No points for words shorter than 3 letters
     }
-    const multiplier = 1 + 0.5 * (wordLength - 3);
-    return Math.floor(wordLength * multiplier)
-  }
+    
+    // Base points for a 3-letter word
+    const basePoints = 10;
+
+    // Use an exponential growth factor
+    const growthFactor = 1.8;
+
+    // Calculate score exponentially
+    const score = Math.floor(basePoints * Math.pow(growthFactor, wordLength - 3));
+    return score;
+}
 
   isValidWord(word) {
     // Check against the DICTIONARY_SET for efficient lookup
