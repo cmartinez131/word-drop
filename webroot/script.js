@@ -36,7 +36,7 @@ class App {
     
     this.timerLabel = timerLabel;
     this.isGameActive = false;
-    this.timer = 20;
+    this.timer = 45;
     this.intervalId = null;
 
     // More common letters will show up more frequently
@@ -154,7 +154,7 @@ class App {
     }
 
     this.isGameActive = true;
-    this.timer = 20;
+    this.timer = 45;
     this.updateTimerLabel();
 
     // Start Countdown
@@ -223,7 +223,7 @@ class App {
   restartGame() {
     console.log("Game Restarted")
     this.score = 0
-    this.timer = 20
+    this.timer = 45
     this.isGameActive = false;
     // Reset Longest word for round
     this.longestWord = '';
