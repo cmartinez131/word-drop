@@ -213,7 +213,7 @@ class App {
         type: 'gameEnded',
         data: {
           finalScore: this.score,
-          longestWord: this.longestWordOverall,
+          longestWord: this.longestWord,
         },
       },
       '*'
