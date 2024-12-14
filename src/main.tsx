@@ -210,12 +210,12 @@ Devvit.addCustomPostType({
       )}
     </vstack>
     <spacer size='large'/>
-    <hstack>
-      <button onPress={onShowLeaderboardClick} appearance="bordered" size="small" icon='rules'>Rules</button>
+    <hstack alignment='middle center'>
+      <button onPress={onShowLeaderboardClick} appearance="bordered" size="medium" icon='rules'>Rules</button>
       <spacer />
-      <button onPress={onShowWebviewClick} appearance="primary" size="medium" icon='play'>Start Game</button>
+      <button onPress={onShowWebviewClick} appearance="primary" size="large" icon='play'>Start</button>
       <spacer />
-      <button onPress={onShowLeaderboardClick} appearance="bordered" size="small" icon='list-numbered'>Leaderboard</button>
+      <button onPress={onShowLeaderboardClick} appearance="secondary" size="medium" icon='list-numbered'>Leaderboard</button>
     </hstack>
   </vstack>
 
@@ -233,11 +233,11 @@ Devvit.addCustomPostType({
 
   {/* Leaderboard Modal */}
   {leaderboardVisible && (
-    <zstack alignment="middle center" width="100%" height="100%">
+    <zstack alignment="middle center" width="100%" height="80%">
       <vstack
         width="80%"
         height="60%"
-        backgroundColor="white"
+        backgroundColor="PureGray-200"
         cornerRadius="medium"
         padding="medium"
         border="thick"
@@ -267,7 +267,7 @@ Devvit.addCustomPostType({
         <hstack>
           <button
             onPress={() => setLeaderboardVisible(false)}
-            appearance="destructive"
+            appearance="secondary"
             size="small"
           >
             Close

@@ -37,23 +37,23 @@ Word Drop leverages **WebViews** to integrate rich web technologies into the Red
 
 ---
 
-### TODO:
+### Done:
 
 - [x] Validate word before adding score.
 - [x] Add end game logic to end game after 60 seconds.
 - [x] Increase frequency of commonly used letters for a more balanced game.
 - [x] Improve scoring calculation logic.
-- [ ] Update UI to show future letters in letter bank, and put title, score, and timer on the left side of the game board.
-- [ ] Update new letter logic to get words from columns in letter bank.
+- [x] **Score Tracking**: Keep track of your high scores. Send score from webview to devvit for user so user can track highest score.
 - [x] On mouse up, show green when the word is valid.
 - [x] Or show green when the word is valid and the user hasn’t lifted the mouse yet.
+- [x] keep track of longest word in the game and display it on gamover screen
+- [x] make border for leaderboard (the black border) centered on the page
+
+TODO:
+- [ ] maybe use the same font and background as pixelary game, pixel font playground.[PixelFont Playgrounds](https://developers.reddit.com/docs/showcase/playgrounds).
+- [ ] - [ ] Update UI to show future letters in letter bank. Update new letter logic to get words from columns in letter bank.
 - [ ] Implement word falling animation.
 - [ ] Animation for word formation.
-- [ ] **Score Tracking**: Keep track of your high scores.
-- [ ] **Share Your Score**: Share your score and current game with other redditors to compete on the same board of letters.
 - [ ] **Leaderboards**: Compete against other redditors in daily competitions.
+- [ ] **Share Your Score**: Share your score and current game with other redditors to compete on the same board of letters.
 - [ ] **Subreddit Integration**: Compete against others within a subreddit. Implement leaderboard for subreddit competitions (communities compete for the best community score).
-- [ ] Add interesting font for letters. Maybe use the font style from the PixelFont Playgrounds: [PixelFont Playgrounds](https://developers.reddit.com/docs/showcase/playgrounds).
-- [ ] Fix bug where the game runs before 'Start Game' Button is pressed
-- [ ] Send score from webview to devvit for user so user can track highest score
-- [x] keep track of longest word in the game and display it on gamover screen
