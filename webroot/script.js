@@ -71,9 +71,6 @@ class App {
     
     // Letter bank where the letters will come from
     this.letterBank = this.fillLetterBank();
-
-    // Event listener for lifting up the mouse cursor up
-    document.addEventListener('mouseup', () => this.handleMouseUp());
     
     // Instance varibales for the game state
     this.gameBoard = gameBoard;
@@ -93,38 +90,44 @@ class App {
     this.highScore = 0;
 
     
-    // Initialize the game board
-    this.initializeGameBoard();
-    
-    // Start the game when the game WebView is first loaded
-    this.startGame();
-    
     // Code for Devvit - Webview eventlisteners
     // When the Devvit app sends a message with `context.ui.webView.postMessage`, this will be triggered
-    // window.addEventListener('message', (ev) => {
-    //   const { type, data } = ev.data;
+    // Listen for the initialData message to start the game
+    window.addEventListener('message', (ev) => {
+      const { type, data } = ev.data;
 
-    //   // Reserved type for messages sent via `context.ui.webView.postMessage`
-    //   if (type === 'devvit-message') {
-    //     const { message } = data;
+      // Reserved type for messages sent via `context.ui.webView.postMessage`
+      if (type === 'devvit-message') {
+        const { message } = data;
 
-    //     // Always output full message
-    //     output.replaceChildren(JSON.stringify(message, undefined, 2));
+        // Always output full message
+        // output.replaceChildren(JSON.stringify(message, undefined, 2));
 
-    //     // Load initial data
-    //     if (message.type === 'initialData') {
-    //       const { username, currentCounter } = message.data;
-    //       usernameLabel.innerText = username;
-    //       counterLabel.innerText = counter = currentCounter;
-    //     }
+        // Load initial data
+        // Start the game
+        if (message.type === 'initialData') {
+          // const { username, currentCounter } = message.data;
+          // usernameLabel.innerText = username;
+          // counterLabel.innerText = counter = currentCounter;
 
-    //     // Update counter
-    //     if (message.type === 'updateCounter') {
-    //       const { currentCounter } = message.data;
-    //       counterLabel.innerText = counter = currentCounter;
-    //     }
-    //   }
-    // });
+          // Event listener for lifting up the mouse cursor up
+          document.addEventListener('mouseup', () => this.handleMouseUp());
+
+          // Initialize the game board
+          this.initializeGameBoard();
+
+          // Start the game when the game WebView is first loaded
+          this.startGame();
+        }
+
+        // Update counter
+        // if (message.type === 'updateCounter') {
+        //   const { currentCounter } = message.data;
+        //   counterLabel.innerText = counter = currentCounter;
+        // }
+      }
+    });
+    
 
     // // Example of devvit-webview event listener for writing to devvit app
     // increaseButton.addEventListener('click', () => {
@@ -148,6 +151,7 @@ class App {
   // Code for Word Drop Game App Methods
 
   startGame() {
+    if (this.isGameActive) return;
     console.log("Game Started");
     if (this.intervalId) {
       clearInterval(this.intervalId);
@@ -169,6 +173,7 @@ class App {
   }
 
   endGame() {
+    if (!this.isGameActive) return;
     this.isGameActive = false;
     clearInterval(this.intervalId);
     console.log(`Game Over! Score: ${this.score}`);
