@@ -215,7 +215,7 @@ Devvit.addCustomPostType({
       <spacer />
       <button onPress={onShowWebviewClick} appearance="primary" size="large" icon='play'>Start</button>
       <spacer />
-      <button onPress={onShowLeaderboardClick} appearance="secondary" size="medium" icon='list-numbered'>Leaderboard</button>
+      <button onPress={onShowLeaderboardClick} appearance="bordered" size="medium" icon='list-numbered'>Leaderboard</button>
     </hstack>
   </vstack>
 
@@ -267,7 +267,7 @@ Devvit.addCustomPostType({
         <hstack>
           <button
             onPress={() => setLeaderboardVisible(false)}
-            appearance="secondary"
+            appearance="primary"
             size="small"
           >
             Close

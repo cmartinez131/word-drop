@@ -50,10 +50,12 @@ Word Drop leverages **WebViews** to integrate rich web technologies into the Red
 - [x] make border for leaderboard (the black border) centered on the page
 
 TODO:
+- [ ] button to show leaderboard from end game screen
 - [ ] maybe use the same font and background as pixelary game, pixel font playground.[PixelFont Playgrounds](https://developers.reddit.com/docs/showcase/playgrounds).
-- [ ] - [ ] Update UI to show future letters in letter bank. Update new letter logic to get words from columns in letter bank.
+- [ ] Update UI to show future letters in letter bank. Update new letter logic to get words from columns in letter bank.
 - [ ] Implement word falling animation.
 - [ ] Animation for word formation.
 - [ ] **Leaderboards**: Compete against other redditors in daily competitions.
 - [ ] **Share Your Score**: Share your score and current game with other redditors to compete on the same board of letters.
 - [ ] **Subreddit Integration**: Compete against others within a subreddit. Implement leaderboard for subreddit competitions (communities compete for the best community score).
+- [ ] if the user finds a hidden/key word, like reddit-y words like [flair, upvote, mod, reddit, home, ban, etc] they get extra points
