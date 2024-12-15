@@ -20,6 +20,14 @@ type WebViewMessage =
   | {
       type: 'gameEnded';
       data: { finalScore: number; longestWord: string };
+    }
+  | {
+      type: 'shareScore';
+      data: { score: number; longestWord: string; currentUsername: string};
+    }
+  | {
+      type: 'showLeaderboard';
+      data: { score: number};
     };
 
 Devvit.configure({
@@ -47,6 +55,8 @@ Devvit.addCustomPostType({
     // Explicitly type the leaderboard state
     const [leaderboard, setLeaderboard] = useState<{ username: string; score: number }[]>([]);
     const [leaderboardVisible, setLeaderboardVisible] = useState(false);
+
+    const [rulesVisible, setRulesVisible] = useState(false);
 
     // Load the user's high score and longest word from redis with 'useAsync' hook
     const {
@@ -112,6 +122,54 @@ Devvit.addCustomPostType({
           console.log('High Score and Leaderboard Updated');
           break;
 
+        case "shareScore":
+          const { score, longestWord, currentUsername} = msg.data;
+          
+          // Prepare the post title and preview content
+          const postTitle = `${currentUsername}'s Word Drop Score: ${score}`;
+          const postPreview = (
+            <vstack>
+                <text size="large" weight="bold">{currentUsername}'s Score</text>
+                {/* <text>Final Score:*{score}</text>
+                <text>Longest Word:*{longestWord || "None"}</text>
+                <text>Play Word Drop now and beat my score!</text> */}
+              </vstack>
+          );
+          
+          try {
+            // Get the current subreddit
+            const subreddit = await context.reddit.getCurrentSubreddit();
+        
+            // Submit the post
+            const post = await context.reddit.submitPost({
+              title: postTitle,
+              subredditName: subreddit.name,
+              preview: postPreview, // Use a lightweight preview to display content
+            });
+          
+            console.log("Score shared!", post);
+          
+            // Show a success toast to the user
+            context.ui.showToast({ text: "Score shared successfully!" });
+          } catch (error) {
+            console.error("Failed to share score:", error);
+          
+            // Show an error toast to the user
+            context.ui.showToast({ text: "Failed to share score. Please try again." });
+            }
+            break;
+        
+        case 'showLeaderboard':
+          setWebviewVisible(false);
+      
+            // Fetch leaderboard data
+            const leaderboardData = await fetchLeaderboard(context);
+            setLeaderboard(leaderboardData);
+            
+            // Show the leaderboard popup
+            setLeaderboardVisible(true);
+          break;
+        
         case 'initialData':
         case 'updateCounter':
           break;
@@ -133,6 +191,10 @@ Devvit.addCustomPostType({
         },
       });
     };
+
+    const onShowRulesClick = () => {
+      setRulesVisible(true);
+    }
 
     const onShowLeaderboardClick = async () => {
       try {
@@ -177,41 +239,45 @@ Devvit.addCustomPostType({
       <vstack grow padding="small">
   {/* Main Content */}
   <vstack
-    grow={!webviewVisible && !leaderboardVisible}
-    height={webviewVisible || leaderboardVisible ? '0%' : '100%'}
+    grow={!webviewVisible && !leaderboardVisible && !rulesVisible}
+    height={webviewVisible || leaderboardVisible || rulesVisible ? '0%' : '100%'}
     alignment="middle center"
+    backgroundColor="neutral-background"
   >
-    <text size="xxlarge" weight="bold" style='heading'>Play Word Drop</text>
+    <text size="xxlarge" weight="bold" style='heading'>Word Drop</text>
     <spacer size='large'/>
     <vstack alignment="start middle">
       {/* <hstack>
         <text size="medium">Username:</text>
         <text size="medium" weight="bold">{username ?? ''}</text>
       </hstack> */}
-      <text size="xlarge" weight="bold">How to Play:</text>
+      
       <spacer />
-      <text size="medium" wrap>1. Press and hold the mouse over letters and drag to form words.</text>
-      <text size="medium" wrap>2. Release the mouse to submit your word.</text>
-      <text size="medium" wrap>3. Click to pop a single letter.</text>
-      <spacer />
+      <text size="large" wrap>1. Find as many words as you can!</text>
+      <spacer size='small'/>
+      <text size="large" wrap>2. Press and drag the mouse over the letters to form words.</text>
+      <spacer size='small'/>
+      <text size="large" wrap>3. If you get stuck, click to pop a single letter.</text>
+      <spacer size='medium'/>
       {userStatsLoading ? (
         <text>Loading Stats...</text>
       ) : (
         <>
           <hstack>
-            <text size="medium">Your All-Time High Score:</text>
-            <text size="medium" weight="bold">{userStats?.highScore ?? 0}</text>
+            <text size="large">Your All-Time High Score:</text>
+            <text size="large" weight="bold">{userStats?.highScore ?? 0}</text>
           </hstack>
+          <spacer size='small'/>
           <hstack>
-            <text size="medium">Your All-Time Longest Word:</text>
-            <text size="medium" weight="bold">{userStats?.longestWord ?? ''}</text>
+            <text size="large">Your All-Time Longest Word:</text>
+            <text size="large" weight="bold">{userStats?.longestWord ?? ''}</text>
           </hstack>
         </>
       )}
     </vstack>
     <spacer size='large'/>
-    <hstack alignment='middle center'>
-      <button onPress={onShowLeaderboardClick} appearance="bordered" size="medium" icon='rules'>Rules</button>
+    <hstack alignment='middle center' gap='small'>
+      <button onPress={onShowRulesClick} appearance="bordered" size="medium" icon='rules'>Rules</button>
       <spacer />
       <button onPress={onShowWebviewClick} appearance="primary" size="large" icon='play'>Start</button>
       <spacer />
@@ -237,11 +303,11 @@ Devvit.addCustomPostType({
       <vstack
         width="80%"
         height="60%"
-        backgroundColor="PureGray-200"
+        backgroundColor="neutral-background"
         cornerRadius="medium"
         padding="medium"
         border="thick"
-        borderColor="black"
+        borderColor="neutral-border"
         alignment="center top"
       >
         <hstack alignment="middle center">
@@ -249,7 +315,7 @@ Devvit.addCustomPostType({
         </hstack>
         <spacer />
         <hstack>
-          <text size="large" weight="bold">Most Points scored</text>
+          <text color="neutral-content" size="large" weight="bold">Most Points scored</text>
         </hstack>
         <spacer size="small" />
         {leaderboard.length === 0 ? (
@@ -257,9 +323,9 @@ Devvit.addCustomPostType({
         ) : (
           leaderboard.map((entry, index) => (
             <hstack key={entry.username}>
-              <text size="medium">{index + 1}. {entry.username}</text>
+              <text color="neutral-content" size="medium">{index + 1}. {entry.username}</text>
               <spacer />
-              <text size="medium" weight='bold'>{entry.score}</text>
+              <text color="neutral-content" size="medium" weight='bold'>{entry.score}</text>
             </hstack>
           ))
         )}
@@ -273,6 +339,60 @@ Devvit.addCustomPostType({
             Close
           </button>
         </hstack>
+      </vstack>
+    </zstack>
+  )}
+
+{/* Rules Modal */}
+{rulesVisible && (
+    <zstack alignment="top center" width="100%" height="80%">
+      <spacer />
+      <vstack
+        width="80%"
+        height="70%"
+        backgroundColor="neutral-background"
+        cornerRadius="medium"
+        padding="medium"
+        border="thick"
+        borderColor="neutral-border"
+        alignment="center top"
+      >
+        <spacer />
+        <text size="xxlarge" weight="bold" style="heading">How to Play</text>
+        <spacer />
+        <vstack gap="small" alignment="start">
+          <text size="large" weight="bold">Rules:</text>
+          <text size="medium" wrap>
+            1. Press and hold the mouse over letters and drag to form words.
+          </text>
+          <text size="medium" wrap>
+            2. Release the mouse to submit your word.
+          </text>
+          <text size="medium" wrap>
+            3. Stuck? Click to pop a single letter (penalty of -3 points).
+          </text>
+          <spacer />
+          <text size="large" weight="bold">Scoring Breakdown:</text>
+          <text size="medium" wrap>3 letters: 10 points</text>
+          <text size="medium" wrap>4 letters: 18 points</text>
+          <text size="medium" wrap>5 letters: 32 points</text>
+          <text size="medium" wrap>6 letters: 58 points</text>
+          <text size="medium" wrap>7+ letters: Exponentially more points!</text>
+        </vstack>
+        <spacer />
+        <hstack>
+          <button
+            onPress={() => setRulesVisible(false)}
+            appearance="primary"
+            size="small"
+          >
+            Close
+          </button>
+        </hstack>
+        <spacer size="medium" />
+        <text size="small" color="neutral-content" alignment="center">
+          Note: Game not currently available on mobile devices.
+        </text>
       </vstack>
     </zstack>
   )}

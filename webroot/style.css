@@ -220,6 +220,10 @@ pre {
   margin-bottom: 15px;
 }
 
+#longest-word-label {
+  padding-bottom: 10px;
+}
+
 #high-score-label {
   font-size: 1.2rem;
   margin-bottom: 5px;

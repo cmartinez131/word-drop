@@ -10,6 +10,7 @@ class App {
     // Logic for WordDrop Game
     const gameBoardElement = document.querySelector('#game-board');
     const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const currentUsername = '';
 
     // 2D array of 5x5 grid representing the game board
     const gameBoard = Array.from({ length: 5 }, () => Array(5).fill(null));
@@ -109,6 +110,8 @@ class App {
           // const { username, currentCounter } = message.data;
           // usernameLabel.innerText = username;
           // counterLabel.innerText = counter = currentCounter;
+          const {username, currentCounter } = message.data;
+          this.currentUsername = username;
 
           // Event listener for lifting up the mouse cursor up
           document.addEventListener('mouseup', () => this.handleMouseUp());
@@ -156,7 +159,7 @@ class App {
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }
-
+    console.log(`${this.currentUsername} is starting the game`)
     this.isGameActive = true;
     this.timer = 60;
     this.updateTimerLabel();
@@ -200,6 +203,8 @@ class App {
     // Add event listeners to buttons
     const newGameButton = document.getElementById("new-game-button");
     const shareScoreButton = document.getElementById("share-score-button");
+    const showLeaderboardButton = document.getElementById("show-leaderboard-button");
+
 
     newGameButton.addEventListener("click", () => {
       console.log("New Game Button Pressed");
@@ -209,8 +214,35 @@ class App {
 
     shareScoreButton.addEventListener("click", () => {
       console.log("Share Score Button Pressed");
+
+      // Send message to the Devvit app to handle sharing the current score
+      window.parent?.postMessage(
+        {
+          type: "shareScore",
+          data: {
+            score: this.score,
+            longestWord: this.longestWord,
+            currentUsername: this.currentUsername
+          }
+        },
+        "*"
+      );
     });
 
+    showLeaderboardButton.addEventListener("click", () => {
+      console.log("Show Leaderboard Button Pressed");
+    
+      // Send a message to the Devvit app to show the leaderboard
+      window.parent?.postMessage(
+        {
+          type: "showLeaderboard",
+          data: {
+            score: this.score, // Pass the current score or other relevant data
+          },
+        },
+        "*"
+      );
+    });
     
   // After showing game over, send data back to Devvit app
     window.parent?.postMessage(
