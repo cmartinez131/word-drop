@@ -126,10 +126,10 @@ Devvit.addCustomPostType({
           const { score, longestWord, currentUsername} = msg.data;
           
           // Prepare the post title and preview content
-          const postTitle = `${currentUsername}'s Word Drop Score: ${score}`;
+          const postTitle = `${currentUsername} Scored ${score} with the Longest Word: ${longestWord}`;
           const postPreview = (
             <vstack>
-                <text size="large" weight="bold">{currentUsername}'s Score</text>
+                <text size="large" weight="bold">{currentUsername}'s Score: {score}</text>
                 {/* <text>Final Score:*{score}</text>
                 <text>Longest Word:*{longestWord || "None"}</text>
                 <text>Play Word Drop now and beat my score!</text> */}
@@ -157,7 +157,7 @@ Devvit.addCustomPostType({
             // Show an error toast to the user
             context.ui.showToast({ text: "Failed to share score. Please try again." });
             }
-            break;
+          break;
         
         case 'showLeaderboard':
           setWebviewVisible(false);
@@ -265,11 +265,13 @@ Devvit.addCustomPostType({
         <>
           <hstack>
             <text size="large">Your All-Time High Score:</text>
+            <spacer size='xsmall'/>
             <text size="large" weight="bold">{userStats?.highScore ?? 0}</text>
           </hstack>
           <spacer size='small'/>
           <hstack>
             <text size="large">Your All-Time Longest Word:</text>
+            <spacer size='xsmall'/>
             <text size="large" weight="bold">{userStats?.longestWord ?? ''}</text>
           </hstack>
         </>

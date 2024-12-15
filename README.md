@@ -50,7 +50,7 @@ Word Drop leverages **WebViews** to integrate rich web technologies into the Red
 - [x] make border for leaderboard (the black border) centered on the page
 
 TODO:
-- [ ] button to show leaderboard from end game screen
+- [x] button to show leaderboard from end game screen
 - [ ] maybe use the same font and background as pixelary game, pixel font playground.[PixelFont Playgrounds](https://developers.reddit.com/docs/showcase/playgrounds).
 - [ ] Update UI to show future letters in letter bank. Update new letter logic to get words from columns in letter bank.
 - [ ] Implement word falling animation.

@@ -197,7 +197,7 @@ class App {
     finalScoreLabel.innerText = `Final Score: ${this.score}`;
     longestWordLabel.innerText = `Longest Word: ${this.longestWord || 'None'}`;
     highScoreLabel.innerText = `High Score: ${this.highScore}`;
-    longestWordOverallLabel.innerText = `Longest Word Overall: ${this.longestWordOverall || 'None'}`;
+    longestWordOverallLabel.innerText = `Longest Word This Session: ${this.longestWordOverall || 'None'}`;
 
 
     // Add event listeners to buttons
