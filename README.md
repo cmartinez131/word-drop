@@ -4,7 +4,7 @@ Word Drop is a fast-paced word game developed for the [Reddit Games and Puzzles 
 
 #### Goal of the Game
 
-Build as many words as you can in 60 seconds! Drag your mouse over adjacent letters to form a word and release to submit it. Once a word is submitted, the used letters disappear, and new letters drop into place, creating fresh opportunities to score. The longer your words, the higher your score.
+Build as many words as you can in 60 seconds! Drag your mouse over adjacent letters to form a word and release to submit it. Once a word is submitted, the used letters disappear, and new letters drop into place, creating fresh opportunities to score. You may also strategically remove single letters to help you form longer words. Longer words are exponentially worth more points.
 
 #### Features
 
@@ -17,7 +17,8 @@ Build as many words as you can in 60 seconds! Drag your mouse over adjacent lett
 1. Go to the r/WordDrop subreddit.
 2. Click the "Start Game" button.
 3. Press and hold the mouse cursor over letters to form a word by dragging over adjacent letters. Release the mouse to submit the word.
-4. Score as many points as possible within the 60-second timer.
+4. Click to remove a single letter.
+5. Score as many points as possible within the 60-second timer.
 
 #### Technologies Used
 
@@ -27,6 +28,7 @@ Build as many words as you can in 60 seconds! Drag your mouse over adjacent lett
 - **WebViews**: For integrating web technologies into the Reddit platform, allowing full customization of the app's interface.
 - **Redis**: (Todo) Stores and manages game state, such as the score and board data, enabling persistent gameplay across sessions.
 - **React-like Hooks**: Devvit uses hooks similar to React's hooks for state management within the Devvit platform.
+- **Reddit API/ Devvit Api**: Devvit provides a public API for tasks like posting to subreddits or getting the reddit user's username.
 
 #### About the Integration with WebViews
 
@@ -36,26 +38,3 @@ Word Drop leverages **WebViews** to integrate rich web technologies into the Red
 - The **WebView** must interact with the Devvit app to perform all services like API calls.
 
 ---
-
-### Done:
-
-- [x] Validate word before adding score.
-- [x] Add end game logic to end game after 60 seconds.
-- [x] Increase frequency of commonly used letters for a more balanced game.
-- [x] Improve scoring calculation logic.
-- [x] **Score Tracking**: Keep track of your high scores. Send score from webview to devvit for user so user can track highest score.
-- [x] On mouse up, show green when the word is valid.
-- [x] Or show green when the word is valid and the user hasn’t lifted the mouse yet.
-- [x] keep track of longest word in the game and display it on gamover screen
-- [x] make border for leaderboard (the black border) centered on the page
-
-TODO:
-- [x] button to show leaderboard from end game screen
-- [ ] maybe use the same font and background as pixelary game, pixel font playground.[PixelFont Playgrounds](https://developers.reddit.com/docs/showcase/playgrounds).
-- [ ] Update UI to show future letters in letter bank. Update new letter logic to get words from columns in letter bank.
-- [ ] Implement word falling animation.
-- [ ] Animation for word formation.
-- [ ] **Leaderboards**: Compete against other redditors in daily competitions.
-- [ ] **Share Your Score**: Share your score and current game with other redditors to compete on the same board of letters.
-- [ ] **Subreddit Integration**: Compete against others within a subreddit. Implement leaderboard for subreddit competitions (communities compete for the best community score).
-- [ ] if the user finds a hidden/key word, like reddit-y words like [flair, upvote, mod, reddit, home, ban, etc] they get extra points
