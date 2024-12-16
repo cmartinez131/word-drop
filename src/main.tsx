@@ -126,7 +126,7 @@ Devvit.addCustomPostType({
           const { score, longestWord, currentUsername} = msg.data;
           
           // Prepare the post title and preview content
-          const postTitle = `${currentUsername} Scored ${score} with the Longest Word: ${longestWord}`;
+          const postTitle = `${currentUsername} Scored ${score} points with the Longest Word: ${longestWord}`;
           const postPreview = (
             <vstack>
                 <text size="large" weight="bold">{currentUsername}'s Score: {score}</text>
@@ -152,10 +152,10 @@ Devvit.addCustomPostType({
             // Show a success toast to the user
             context.ui.showToast({ text: "Score shared successfully!" });
           } catch (error) {
-            console.error("Failed to share score:", error);
+            // console.error("Failed to share score:", error);
           
-            // Show an error toast to the user
-            context.ui.showToast({ text: "Failed to share score. Please try again." });
+            // // Show an error toast to the user
+            // context.ui.showToast({ text: "Failed to share score. Please try again." });
             }
           break;
         
@@ -257,7 +257,7 @@ Devvit.addCustomPostType({
       <spacer size='small'/>
       <text size="large" wrap>2. Press and drag the mouse over the letters to form words.</text>
       <spacer size='small'/>
-      <text size="large" wrap>3. If you get stuck, click to pop a single letter.</text>
+      <text size="large" wrap>3. Click to pop a single letter.</text>
       <spacer size='medium'/>
       {userStatsLoading ? (
         <text>Loading Stats...</text>
