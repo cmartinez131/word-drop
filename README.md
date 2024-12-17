@@ -4,7 +4,7 @@ Word Drop is a fast-paced word game developed for the [Reddit Games and Puzzles 
 
 #### Goal of the Game
 
-Build as many words as you can in 60 seconds! Drag your mouse over adjacent letters to form a word and release to submit it. Once a word is submitted, the used letters disappear, and new letters drop into place, creating fresh opportunities to score. You may also strategically remove single letters to help you form longer words. Longer words are exponentially worth more points.
+Score as many points as you can in 60 seconds by building words! Drag your mouse over adjacent letters to form a word and release to submit it. Once a word is submitted, the used letters disappear, and new letters drop into place, creating fresh opportunities to score. You may also strategically remove single letters to help you form longer words. Longer words are exponentially worth more points.
 
 #### Features
 
