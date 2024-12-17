@@ -253,7 +253,7 @@ Devvit.addCustomPostType({
       </hstack> */}
       
       <spacer />
-      <text size="large" wrap>1. Find as many words as you can!</text>
+      <text size="large" wrap weight='bold'>1. Find as many words as you can!</text>
       <spacer size='small'/>
       <text size="large" wrap>2. Press and drag the mouse over the letters to form words.</text>
       <spacer size='small'/>
