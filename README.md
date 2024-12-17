@@ -37,4 +37,3 @@ Word Drop leverages **WebViews** to integrate rich web technologies into the Red
 - **Devvit** acts as a backend for performing backend logic, like storing the score and ensuring gameplay continuity using Redis.
 - The **WebView** must interact with the Devvit app to perform all services like API calls.
 
----
